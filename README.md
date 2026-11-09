@@ -89,3 +89,15 @@ java -cp microrts.jar rts.MicroRTS -f my_file.properties
 ## Instructions
 
 ![instructions image](https://raw.githubusercontent.com/santiontanon/microrts/master/help.png)
+
+## P3 · Reproducible headless AI match (2026-11-09)
+
+A lightweight CI runs a real microRTS **WorkerRush vs LightRush** match on the bundled `maps/8x8/basesWorkers8x8.xml` map, with Java 17, zero UI delay and a maximum of 1500 game cycles. The result line reports cycle count, winner (-1 means tie/no winner), and whether the game reached its engine terminal state. Reaching the declared turn limit is a **bounded completed experiment**, not a claim that a winner was found or that a policy is optimal. No external game ROMs, GPUs or remote servers are required.
+
+```bash
+mkdir -p build/p3
+javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/tests/P3HeadlessMatch.java
+java -Djava.awt.headless=true -cp "lib/*:build/p3" tests.P3HeadlessMatch
+```
+
+The run verifies the map dimensions, nonzero cycles, valid winner ID and game-end/cycle cap; actual CI output is available in the repository's **Headless microRTS AI match** workflow. This is a game-engine smoke test, **not** an RL training benchmark. Existing bundled JARs remain upstream dependencies and should have their licenses independently checked before redistribution.

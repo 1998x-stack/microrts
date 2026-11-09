@@ -1,0 +1,31 @@
+name: Headless microRTS AI match
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Compile microRTS headless match and its source dependencies
+        run: |
+          mkdir -p build/p3
+          javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/tests/P3HeadlessMatch.java
+      - name: Execute real game to victory or bounded turn limit
+        run: |
+          java -Djava.awt.headless=true -cp "lib/*:build/p3" tests.P3HeadlessMatch | tee build/p3/match.log
+          grep -q 'P3_MICRORTS_RESULT ' build/p3/match.log
+      - name: Publish match evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p3-microrts-match
+          path: build/p3/match.log
+          if-no-files-found: ignore
