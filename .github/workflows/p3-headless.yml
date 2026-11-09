@@ -17,9 +17,10 @@ jobs:
       - name: Compile microRTS headless match and its source dependencies
         run: |
           mkdir -p build/p3
-          javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/tests/P3HeadlessMatch.java
+          javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/ai/abstraction/WorkerRush.java src/ai/abstraction/LightRush.java src/tests/P3HeadlessMatch.java
       - name: Execute real game to victory or bounded turn limit
         run: |
+          set -o pipefail
           java -Djava.awt.headless=true -cp "lib/*:build/p3" tests.P3HeadlessMatch | tee build/p3/match.log
           grep -q 'P3_MICRORTS_RESULT ' build/p3/match.log
       - name: Publish match evidence
