@@ -96,8 +96,8 @@ A lightweight CI runs a real microRTS **WorkerRush vs LightRush** match on the b
 
 ```bash
 mkdir -p build/p3
-javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/tests/P3HeadlessMatch.java
+javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/ai/abstraction/WorkerRush.java src/ai/abstraction/LightRush.java src/tests/P3HeadlessMatch.java
 java -Djava.awt.headless=true -cp "lib/*:build/p3" tests.P3HeadlessMatch
 ```
 
-The run verifies the map dimensions, nonzero cycles, valid winner ID and game-end/cycle cap; actual CI output is available in the repository's **Headless microRTS AI match** workflow. This is a game-engine smoke test, **not** an RL training benchmark. Existing bundled JARs remain upstream dependencies and should have their licenses independently checked before redistribution.
+GitHub CI replay on 2026-11-09 completed at **205 cycles**, reported **terminal=true** and **winner=0 (WorkerRush)**; [view original run](https://github.com/1998x-stack/microrts/actions/runs/42622693078). The run verifies the map dimensions, nonzero cycles, valid winner ID and game-end/cycle cap; actual CI output is available in the repository's **Headless microRTS AI match** workflow. This is a game-engine smoke test, **not** an RL training benchmark. Existing bundled JARs remain upstream dependencies and should have their licenses independently checked before redistribution.
